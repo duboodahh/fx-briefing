@@ -5,3 +5,4 @@ PyYAML
 pytest
 anthropic
 tzdata
+exchange_calendars

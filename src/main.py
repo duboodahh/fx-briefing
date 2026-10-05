@@ -12,6 +12,8 @@ from datetime import datetime
 from pathlib import Path
 
 from src.brief import build_input, generate, render
+from src.collect import events as events_mod
+from src.collect import market_calendar
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
@@ -24,9 +26,16 @@ def main():
     ap.add_argument("--input-only", action="store_true", help="API를 호출하지 않고 입력 JSON만 저장")
     ap.add_argument("--no-llm", action="store_true", help="API를 호출하지 않고 템플릿(뉴스 비움)만 출력")
     ap.add_argument("--send", action="store_true", help="생성한 브리핑을 텔레그램으로 전송 (기본은 전송 안 함)")
+    ap.add_argument("--force", action="store_true", help="한국·미국 모두 새 거래일이 없는 날에도 발송")
     args = ap.parse_args()
     if args.send and (args.no_llm or args.input_only):
         ap.error("--send는 --no-llm / --input-only와 함께 쓸 수 없음 (뉴스가 빈 브리핑이 전송되는 것을 막기 위함)")
+
+    # 전 영업일 이후 한국·미국 모두 거래일이 없으면(예: 12/25 다음 월요일) 보낼 새 데이터가 없다. 수집·API 호출 전에 종료.
+    cal = market_calendar.status(events_mod.today_kst())
+    if cal["skip"] and args.send and not args.force:
+        print(f"발송 건너뜀: {cal['window'][0]} ~ {cal['window'][-1]} 사이에 한국·미국 모두 거래일이 없음")
+        return
 
     if not (args.no_fetch or args.input_only or args.no_llm):
         import fetch_context

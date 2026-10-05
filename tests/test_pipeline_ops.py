@@ -8,6 +8,8 @@ from src import notify
 from src.brief import generate, render
 from test_render_pipeline import DATA
 
+NORMAL_DAY = {"window": ["2026-10-01"], "kr_new": True, "us_new": True, "kr_closed": [], "us_closed": [], "skip": False}
+
 
 @pytest.fixture(autouse=True)
 def isolate(monkeypatch, tmp_path):
@@ -18,6 +20,8 @@ def isolate(monkeypatch, tmp_path):
     monkeypatch.setattr(requests, "get", boom)
     monkeypatch.setattr(main_mod, "DATA", tmp_path)
     monkeypatch.setattr(main_mod.build_input, "build", lambda: DATA)
+    # 실제 오늘 날짜에 따라 결과가 달라지지 않도록 캘린더 판단은 '평범한 영업일'로 고정한다
+    monkeypatch.setattr(main_mod.market_calendar, "status", lambda today: dict(NORMAL_DAY))
 
 
 def run_main(monkeypatch, *args):
@@ -59,6 +63,29 @@ def test_success_path_sends_once_and_exits_cleanly(monkeypatch):
     monkeypatch.setattr(telegram, "send", lambda text, **k: sent.append(text) or 1)
     run_main(monkeypatch, "--no-fetch", "--send")
     assert len(sent) == 1 and "• 고용 부진 (CNBC Economy)" in sent[0]
+
+
+def test_skip_day_sends_nothing_and_never_calls_claude(monkeypatch):
+    skip = {**NORMAL_DAY, "kr_new": False, "us_new": False, "skip": True,
+            "window": ["2026-12-25", "2026-12-26", "2026-12-27"]}
+    monkeypatch.setattr(main_mod.market_calendar, "status", lambda today: skip)
+    monkeypatch.setattr(main_mod.generate, "generate", lambda d: (_ for _ in ()).throw(AssertionError("API 호출됨")))
+    from src.send import telegram
+    monkeypatch.setattr(telegram, "send", lambda *a, **k: (_ for _ in ()).throw(AssertionError("전송됨")))
+    run_main(monkeypatch, "--send")            # 예외 없이 조용히 종료해야 한다
+
+
+def test_force_overrides_skip(monkeypatch):
+    skip = {**NORMAL_DAY, "kr_new": False, "us_new": False, "skip": True}
+    monkeypatch.setattr(main_mod.market_calendar, "status", lambda today: skip)
+    sent = []
+    monkeypatch.setattr(main_mod.generate, "generate", lambda d: {
+        "picks": {"intl": [], "kr": []}, "problems": [], "unverified_numbers": [], "retried": False,
+        "first_attempt": None, "usage": {"input_tokens": 0, "output_tokens": 0, "est_cost_usd": 0}})
+    from src.send import telegram
+    monkeypatch.setattr(telegram, "send", lambda text, **k: sent.append(text) or 1)
+    run_main(monkeypatch, "--no-fetch", "--send", "--force")
+    assert len(sent) == 1
 
 
 def test_send_refused_together_with_no_llm(monkeypatch):

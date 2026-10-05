@@ -30,6 +30,12 @@ def _wd(iso):
     return WEEKDAYS[date.fromisoformat(iso).weekday()]
 
 
+def _hidden(data):
+    """(미국 금리 숨김, 한국 금리 숨김). 캘린더 정보가 없으면 숨기지 않는다."""
+    cal = data.get("calendar") or {}
+    return not cal.get("us_new", True), not cal.get("kr_new", True)
+
+
 def _missing(label):
     return f"{BULLET} {label} 수집 실패"
 
@@ -45,16 +51,33 @@ def _rate_lines(data):
         v = s.get(key)
         return _missing(label) if not v else f"{BULLET} {label} {_num(v['last_bp'], 1, True)}bp ({_num(v['change_bp'], 1, True)}bp)"
 
-    return [
-        "[금리]",
-        yield_line("us10y", "미국 국채 10Y"),
-        yield_line("us2y", "미국 국채 2Y"),
-        spread_line("us_curve_10y2y", "미 10Y-2Y 장단기 금리차"),
-        yield_line("kr3y", "국고채 3Y"),
-        yield_line("kr10y", "국고채 10Y"),
-        spread_line("kr_curve_10y3y", "국고 10Y-3Y 스프레드"),
-        spread_line("kr_us_10y", "한미 10Y 금리차(국고-미 국채)"),
-    ]
+    us_hide, kr_hide = _hidden(data)
+
+    def closed_line(name, closed_dates):
+        days = ", ".join(_md(d) for d in closed_dates)
+        return f"{BULLET} {name} 휴장" + (f" ({days})" if days else "")
+
+    cal = data.get("calendar") or {}
+    lines = ["[금리]"]
+    if us_hide:  # 직전 영업일 이후 미국 시장에 새 거래일이 없으면 수치를 숨기고 휴장으로 표시
+        lines.append(closed_line("미국 채권시장", cal.get("us_closed", [])))
+    else:
+        lines += [
+            yield_line("us10y", "미국 국채 10Y"),
+            yield_line("us2y", "미국 국채 2Y"),
+            spread_line("us_curve_10y2y", "미 10Y-2Y 장단기 금리차"),
+        ]
+    if kr_hide:
+        lines.append(closed_line("한국 채권시장", cal.get("kr_closed", [])))
+    else:
+        lines += [
+            yield_line("kr3y", "국고채 3Y"),
+            yield_line("kr10y", "국고채 10Y"),
+            spread_line("kr_curve_10y3y", "국고 10Y-3Y 스프레드"),
+        ]
+    if not us_hide and not kr_hide:  # 한미 금리차는 양쪽 데이터가 모두 새것일 때만
+        lines.append(spread_line("kr_us_10y", "한미 10Y 금리차(국고-미 국채)"))
+    return lines
 
 
 def _market_lines(data):
@@ -76,9 +99,10 @@ def _market_lines(data):
 def _basis_line(data):
     """표시한 지표들의 기준일을 날짜별로 묶어 한 줄로. (기준일이 서로 다른 것이 정상이므로 숨기지 않는다.)"""
     y, m = data["rates"]["yields"], data["markets"]
+    us_hide, kr_hide = _hidden(data)  # 숨긴 수치의 날짜는 기준 줄에서도 뺀다
     parts = [
-        ("미국채", [y[k]["asof"] for k in ("us2y", "us10y") if k in y]),
-        ("국고채", [y[k]["asof"] for k in ("kr3y", "kr10y") if k in y]),
+        ("미국채", [] if us_hide else [y[k]["asof"] for k in ("us2y", "us10y") if k in y]),
+        ("국고채", [] if kr_hide else [y[k]["asof"] for k in ("kr3y", "kr10y") if k in y]),
         ("원/달러", [m["usdkrw"]["asof"]] if "usdkrw" in m else []),
         ("달러/엔", [m["usdjpy"]["asof"]] if "usdjpy" in m else []),
         ("DXY", [m["dxy"]["asof"]] if "dxy" in m else []),

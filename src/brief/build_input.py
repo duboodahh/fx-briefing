@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 from src.collect import events as events_mod
+from src.collect import market_calendar
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data"
@@ -82,6 +83,7 @@ def build(today=None):
         "markets": markets,
         "rates": {"yields": yields, "spreads": spreads},
         "events": events_mod.upcoming(events_mod.load_events(), today, days=14),
+        "calendar": market_calendar.status(today),
         "news_intl": news_intl,
         "news_kr": news_kr,
         "data_issues": issues,
