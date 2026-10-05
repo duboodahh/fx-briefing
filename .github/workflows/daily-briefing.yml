@@ -1,0 +1,43 @@
+name: Daily Macro Issue Briefing
+
+on:
+  schedule:
+    # 평일 아침 KST ~07:07 (= 일~목 22:07 UTC). 정각(:00)은 GitHub 크론이 몰려 지연이 커서 일부러 비껴 잡았다.
+    # GitHub 예약 실행은 수 분~수십 분 늦을 수 있다.
+    - cron: "7 22 * * 0-4"
+  workflow_dispatch: {}   # Actions 탭에서 수동 실행 (첫 테스트용)
+
+concurrency:
+  group: daily-briefing
+  cancel-in-progress: false
+
+jobs:
+  briefing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Collect, write briefing, send to Telegram
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: python -m src.main --send
+
+      - name: Alert on failure
+        if: failure()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python -m src.notify || true

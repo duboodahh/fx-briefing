@@ -1,0 +1,43 @@
+# 1단계: yfinance로 수집하는 시장 지표 (금리는 2단계에서 FRED/ECOS로 추가)
+market:
+  - {key: usdkrw, name: "USD/KRW", ticker: "KRW=X",     group: fx,        decimals: 2}
+  - {key: usdjpy, name: "USD/JPY", ticker: "JPY=X",     group: fx,        decimals: 2}
+  - {key: usdcny, name: "USD/CNY", ticker: "CNY=X",     group: fx,        decimals: 4}
+  - {key: dxy,    name: "DXY",     ticker: "DX-Y.NYB",  group: fx,        decimals: 2}
+  - {key: wti,    name: "WTI",     ticker: "CL=F",      group: commodity, decimals: 2}
+  - {key: gold,   name: "Gold",    ticker: "GC=F",      group: commodity, decimals: 1}
+  - {key: vix,    name: "VIX",     ticker: "^VIX",      group: risk,      decimals: 2}
+  - {key: spx,    name: "S&P 500", ticker: "^GSPC",     group: risk,      decimals: 1}
+  - {key: kospi,  name: "KOSPI",   ticker: "^KS11",     group: risk,      decimals: 1}
+
+# 2단계: 금리 (단위 %). 미국은 재무부 공식 일일 수익률 곡선(당일 마감값, 키 불필요)을 우선 쓰고,
+# 실패하면 FRED(재무부 데이터를 1영업일 늦게 재배포)로 대체한다. 한국은 ECOS 시장금리(일별, 통계표 817Y002).
+rates:
+  us:
+    - {key: us2y,  name: "미국채 2년",  treasury_field: BC_2YEAR,  fred_series: DGS2}
+    - {key: us10y, name: "미국채 10년", treasury_field: BC_10YEAR, fred_series: DGS10}
+  ecos:
+    - {key: kr3y,  name: "국고채 3년",  stat: "817Y002", item: "010200000"}
+    - {key: kr10y, name: "국고채 10년", stat: "817Y002", item: "010210000"}
+
+# 3단계: 공개 RSS. region: intl(국외) | kr(국내). 확인일 2026-10-05 기준 모두 HTTP 200
+# title_filter: 있으면 제목이 이 정규식에 맞는 기사만 사용 (일반 경제 피드에서 매크로 기사만 거르기 위함)
+news:
+  max_age_hours: 72   # 월요일 아침에도 주말 기사가 포함되도록
+  kr_title_filter: &kr_filter "환율|원/달러|원·달러|달러|엔화|금리|국고채|채권|한은|한국은행|기준금리|통화정책|코스피|코스닥|외국인|외환|물가|수출|무역|유가|연준|FOMC|고용|관세|환헤지|수급"
+  feeds:
+    # 국외
+    - {name: "Fed Press",          region: intl, url: "https://www.federalreserve.gov/feeds/press_all.xml"}
+    - {name: "Fed Monetary",       region: intl, url: "https://www.federalreserve.gov/feeds/press_monetary.xml"}
+    - {name: "CNBC Markets",       region: intl, url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839069"}
+    - {name: "CNBC Economy",       region: intl, url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258"}
+    - {name: "FXStreet",           region: intl, url: "https://www.fxstreet.com/rss/news"}
+    - {name: "BBC Business",       region: intl, url: "https://feeds.bbci.co.uk/news/business/rss.xml"}
+    - {name: "NYT Economy",        region: intl, url: "https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml"}
+    # 국내
+    - {name: "BOK English",        region: kr,   url: "https://www.bok.or.kr/eng/bbs/E0000634/news.rss?menuNo=400423"}
+    - {name: "연합뉴스",            region: kr,   title_filter: *kr_filter, url: "https://www.yna.co.kr/rss/economy.xml"}
+    - {name: "한국경제",            region: kr,   title_filter: *kr_filter, url: "https://www.hankyung.com/feed/finance"}
+    - {name: "매일경제",            region: kr,   title_filter: *kr_filter, url: "https://www.mk.co.kr/rss/50200011/"}
+  # 제외: MarketWatch(마지막 기사 2025-07, 중단), WSJ(2026-01 이후 갱신 없음), Yonhap 영문(404),
+  #       Korea Herald Biz(기업 단신 위주). 연합인포맥스는 RSS 날짜 형식이 달라 보류.

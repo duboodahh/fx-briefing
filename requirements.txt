@@ -1,0 +1,7 @@
+yfinance
+python-dotenv
+requests
+PyYAML
+pytest
+anthropic
+tzdata
