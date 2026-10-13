@@ -1,0 +1,34 @@
+# 오버나잇 브리핑 뉴스 소스. tier: 1=원 출처(중앙은행·규제기관), 2=주요 언론, 3=전문 사이트(보조용)
+# domains: 이 피드의 기사가 연결되어야 하는 발행처 도메인. 링크가 다른 곳(구글뉴스 등)이면 '원문 없음'으로 보고 후보에서 뺀다.
+# topic: equity | ficc | both (이 피드가 주로 다루는 분야 힌트)
+max_per_source: 6
+max_total: 80
+window_margin_hours: 2   # 직전 미국 장 마감 시점부터 지금까지 + 여유
+
+feeds:
+  # --- 1등급: 원 출처 ---
+  - {name: "Fed Press",    tier: 1, topic: ficc, lang: en, domains: [federalreserve.gov], url: "https://www.federalreserve.gov/feeds/press_all.xml"}
+  - {name: "Fed Speeches", tier: 1, topic: ficc, lang: en, domains: [federalreserve.gov], url: "https://www.federalreserve.gov/feeds/speeches.xml"}
+  - {name: "ECB Press",    tier: 1, topic: ficc, lang: en, domains: [ecb.europa.eu],       url: "https://www.ecb.europa.eu/rss/press.html"}
+  # --- 2등급: 주요 언론 (영문) ---
+  - {name: "WSJ Markets",     tier: 2, topic: both,   lang: en, domains: [wsj.com],         url: "https://feeds.content.dowjones.io/public/rss/RSSMarketsMain"}
+  - {name: "WSJ US Business", tier: 2, topic: equity, lang: en, domains: [wsj.com],         url: "https://feeds.content.dowjones.io/public/rss/WSJcomUSBusiness"}
+  - {name: "MarketWatch",     tier: 2, topic: both,   lang: en, domains: [marketwatch.com], url: "https://feeds.content.dowjones.io/public/rss/mw_topstories"}
+  - {name: "FT",              tier: 2, topic: both,   lang: en, domains: [ft.com],          url: "https://www.ft.com/rss/home"}
+  - {name: "CNBC Markets",    tier: 2, topic: both,   lang: en, domains: [cnbc.com],        url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839069"}
+  - {name: "CNBC Earnings",   tier: 2, topic: equity, lang: en, domains: [cnbc.com],        url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839135"}
+  - {name: "CNBC Tech",       tier: 2, topic: equity, lang: en, domains: [cnbc.com],        url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=19854910"}
+  - {name: "CNBC Energy",     tier: 2, topic: ficc,   lang: en, domains: [cnbc.com],        url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=19836768"}
+  - {name: "CNBC Economy",    tier: 2, topic: ficc,   lang: en, domains: [cnbc.com],        url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258"}
+  - {name: "Guardian Business", tier: 2, topic: both, lang: en, domains: [theguardian.com], url: "https://www.theguardian.com/uk/business/rss"}
+  - {name: "NYT Economy",     tier: 2, topic: ficc,   lang: en, domains: [nytimes.com],     url: "https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml"}
+  # --- 2등급: 한국어 (미국장 관련 제목만) ---
+  - {name: "한국경제 금융",   tier: 2, topic: both, lang: ko, domains: [hankyung.com], title_filter: "뉴욕증시|뉴욕 증시|월가|美 증시|美 국채|美 금리|연준|FOMC|달러|엔화|유가|WTI|브렌트|국채 금리|나스닥|다우|S&P|엔비디아|마이크론|빅테크|반도체", url: "https://www.hankyung.com/feed/finance"}
+  - {name: "매일경제 국제",   tier: 2, topic: both, lang: ko, domains: [mk.co.kr],     title_filter: "뉴욕증시|뉴욕 증시|월가|美 증시|美 국채|美 금리|연준|FOMC|달러|엔화|유가|WTI|브렌트|국채 금리|나스닥|다우|S&P|엔비디아|마이크론|빅테크|반도체", url: "https://www.mk.co.kr/rss/30300018/"}
+  - {name: "연합뉴스 경제",   tier: 2, topic: both, lang: ko, domains: [yna.co.kr],    title_filter: "뉴욕증시|뉴욕 증시|월가|美 증시|美 국채|美 금리|연준|FOMC|달러|엔화|유가|WTI|브렌트|국채 금리|나스닥|다우|S&P|엔비디아|마이크론|빅테크|반도체", url: "https://www.yna.co.kr/rss/economy.xml"}
+  # --- 3등급: 전문 사이트 (보조, 단독 근거로 쓰지 않음) ---
+  - {name: "FXStreet",       tier: 3, topic: ficc,   lang: en, domains: [fxstreet.com],     url: "https://www.fxstreet.com/rss/news"}
+  - {name: "Seeking Alpha",  tier: 3, topic: equity, lang: en, domains: [seekingalpha.com], url: "https://seekingalpha.com/market_currents.xml"}
+  - {name: "Benzinga",       tier: 3, topic: equity, lang: en, domains: [benzinga.com],     url: "https://www.benzinga.com/feed"}
+  # --- AP: 공식 RSS는 403, 구글뉴스 경유 링크는 AP 원문으로 풀리지 않아(2026-10-13 확인) 자동으로 '원문 없음' 처리된다. 참고용으로만 남김.
+  - {name: "AP News (구글뉴스 경유)", tier: 2, topic: both, lang: en, domains: [apnews.com], url: "https://news.google.com/rss/search?q=site:apnews.com+stocks+OR+markets+OR+oil+when:2d&hl=en-US&gl=US&ceid=US:en"}

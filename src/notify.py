@@ -6,7 +6,8 @@ from src.send import telegram
 
 def build_message(env=os.environ):
     server, repo, run_id = env.get("GITHUB_SERVER_URL"), env.get("GITHUB_REPOSITORY"), env.get("GITHUB_RUN_ID")
-    lines = ["Daily Macro Issue Briefing 자동 실행에 실패했습니다."]
+    name = env.get("GITHUB_WORKFLOW") or "브리핑"   # 워크플로 이름(Daily Macro Issue Briefing / Overnight Market Briefing)
+    lines = [f"{name} 자동 실행에 실패했습니다."]
     if server and repo and run_id:
         lines.append(f"로그 확인: {server}/{repo}/actions/runs/{run_id}")
     return "\n".join(lines)

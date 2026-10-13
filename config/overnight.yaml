@@ -1,0 +1,22 @@
+# 오버나잇(미국장 마감) 브리핑 설정. 수치는 모두 코드가 수집·계산한다.
+indices:   # 주요 지수. check_fred: FRED 시리즈가 있으면 교차검증
+  - {key: dji, name: "다우", name_en: "Dow",     ticker: "^DJI",  decimals: 2, check_fred: DJIA}
+  - {key: spx, name: "S&P500", name_en: "S&P 500",   ticker: "^GSPC", decimals: 2, check_fred: SP500}
+  - {key: ixic, name: "나스닥", name_en: "Nasdaq",  ticker: "^IXIC", decimals: 2, check_fred: NASDAQCOM}
+  - {key: rut, name: "러셀2000", name_en: "Russell 2000", ticker: "^RUT",  decimals: 2}
+crosscheck_tolerance_pct: 0.1   # 야후와 FRED 종가가 이 비율(%)보다 크게 어긋나면 경고
+
+rates:     # 재무부 일일 수익률 곡선 (단위 %)
+  - {key: us2y,  name: "미 2Y", name_en: "UST 2Y",  field: BC_2YEAR}
+  - {key: us10y, name: "미 10Y", name_en: "UST 10Y", field: BC_10YEAR}
+  - {key: us30y, name: "미 30Y", name_en: "UST 30Y", field: BC_30YEAR}
+
+fx:
+  - {key: dxy,    name: "DXY", name_en: "DXY",     ticker: "DX-Y.NYB", decimals: 2}
+  - {key: eurusd, name: "유로/달러", name_en: "EUR/USD", ticker: "EURUSD=X", decimals: 4}
+  - {key: usdjpy, name: "달러/엔", name_en: "USD/JPY",  ticker: "JPY=X",    decimals: 2}
+  - {key: usdkrw, name: "달러/원", name_en: "USD/KRW",  ticker: "KRW=X",    decimals: 2}
+
+energy:    # 선물 근월물 (야후 CL=F, BZ=F). 공식 정산가가 아니라 수집 시점의 종가 봉이다.
+  - {key: wti,   name: "WTI", name_en: "WTI",   ticker: "CL=F", decimals: 2}
+  - {key: brent, name: "브렌트", name_en: "Brent", ticker: "BZ=F", decimals: 2}

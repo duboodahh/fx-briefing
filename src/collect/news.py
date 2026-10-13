@@ -5,9 +5,23 @@ from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 from html import unescape
 
+from urllib.parse import urlparse
+
 import requests
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (fx-briefing personal project)"}
+# 이 호스트로 연결되는 링크는 발행처 원문이 아니라 중간 주소(구글뉴스 등)라 원문으로 치지 않는다.
+AGGREGATOR_HOSTS = {"news.google.com", "feedproxy.google.com", "news.yahoo.com", "flipboard.com", "msn.com"}
+
+
+def is_original(link, domains=None):
+    """링크가 발행처 원문으로 직접 연결되는지. domains(허용 발행처 도메인)가 있으면 그 도메인(하위 포함)이어야 한다."""
+    host = (urlparse(link or "").hostname or "").lower().removeprefix("www.")
+    if not host or host in AGGREGATOR_HOSTS:
+        return False
+    if domains:
+        return any(host == d or host.endswith("." + d) for d in domains)
+    return True
 
 
 def _clean(text, limit=300):
@@ -75,6 +89,10 @@ def collect(feeds, **kw):
                 if k not in seen:
                     seen.add(k)
                     it["region"] = f.get("region", "intl")
+                    it["tier"] = f.get("tier", 3)           # 1=원 출처, 2=주요 언론, 3=전문 사이트(보조)
+                    it["topic"] = f.get("topic", "both")    # equity | ficc | both (피드가 다루는 분야 힌트)
+                    it["lang"] = f.get("lang", "en")
+                    it["original"] = is_original(it.get("link"), f.get("domains"))
                     items.append(it)
         except RuntimeError as e:
             errors[f["name"]] = str(e)

@@ -38,13 +38,13 @@ class BriefingError(RuntimeError):
     pass
 
 
-def _call(client, system, user_text):
+def _call(client, system, user_text, schema=None):
     resp = client.beta.messages.create(
         model=MODEL,
         max_tokens=MAX_TOKENS,
         system=system,
         messages=[{"role": "user", "content": user_text}],
-        output_config={"effort": EFFORT, "format": {"type": "json_schema", "schema": SCHEMA}},
+        output_config={"effort": EFFORT, "format": {"type": "json_schema", "schema": schema or SCHEMA}},
         betas=[FALLBACK_BETA],
         fallbacks="default",
     )
