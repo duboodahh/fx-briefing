@@ -3,6 +3,7 @@
 반환 dict 중 LLM에는 뉴스(news_intl/news_kr)만 전달하고, 시세·금리·일정은 템플릿(render)이 그대로 쓴다.
 """
 import json
+from datetime import datetime
 from pathlib import Path
 
 from src.collect import events as events_mod
@@ -38,6 +39,7 @@ def select_news(items, max_total=60, id_start=1):
             "title": it["title"],
             "summary": it["summary"][:SUMMARY_CHARS],
             "published_utc": it["published"],
+            "url": it.get("link", ""),  # 원문 링크: 렌더링에서만 쓰고 LLM에는 주지 않는다
         }
         for i, it in enumerate(picked)
     ]
@@ -48,8 +50,11 @@ def build(today=None):
     today = today or events_mod.today_kst()
     issues = []
 
-    markets = {}
+    markets, snapshot_kst = {}, None
     if market:
+        snapshot_kst = (
+            datetime.fromisoformat(market["generated_at"]).astimezone(events_mod.KST).strftime("%Y-%m-%dT%H:%M")
+        )
         for key, v in market["indicators"].items():
             if "error" in v:
                 issues.append(f"{v['name']}: 수집 실패")
@@ -81,6 +86,7 @@ def build(today=None):
         "today_kst": today.isoformat(),
         "weekday": WEEKDAYS[today.weekday()],
         "markets": markets,
+        "snapshot_kst": snapshot_kst,  # 환율·유가 등 시세를 수집한 시각(KST)
         "rates": {"yields": yields, "spreads": spreads},
         "events": events_mod.upcoming(events_mod.load_events(), today, days=14),
         "calendar": market_calendar.status(today),
@@ -92,9 +98,12 @@ def build(today=None):
 
 def llm_payload(data):
     """LLM에 전달하는 부분: 오늘 날짜와 뉴스 후보만. (수치는 코드가 채우므로 주지 않는다.)"""
+    def strip(items):
+        return [{k: v for k, v in n.items() if k != "url"} for n in items]
+
     return {
         "today_kst": data["today_kst"],
         "weekday": data["weekday"],
-        "news_intl": data["news_intl"],
-        "news_kr": data["news_kr"],
+        "news_intl": strip(data["news_intl"]),
+        "news_kr": strip(data["news_kr"]),
     }

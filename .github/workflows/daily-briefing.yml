@@ -35,6 +35,17 @@ jobs:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         run: python -m src.main --send
 
+      # 그날 수집한 원자료·뉴스 후보(원문 링크 포함)·생성 결과를 30일간 보관한다. 나중에 브리핑을 원문과 대조할 때 쓴다.
+      # 실패한 날에도 남기고, 파일이 없으면(휴장일 건너뜀 등) 조용히 넘어간다. 비밀값은 data/에 쓰지 않는다.
+      - name: Keep the day's data for audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: briefing-data-${{ github.run_id }}
+          path: data/
+          retention-days: 30
+          if-no-files-found: ignore
+
       - name: Alert on failure
         if: failure()
         env:

@@ -5,10 +5,11 @@
  - 화요일 아침: 구간 = 월 → 월요일이 한국 휴장이면 한국은 새 데이터 없음
  - 구간 안에 한국·미국 모두 거래일이 없으면 보낼 것이 없으므로 skip
 
-미국 주식시장 캘린더(XNYS)는 채권시장만 쉬는 날(컬럼버스데이, 재향군인의 날)을 반영하지 않는다.
-그런 날은 미 재무부 데이터에 그날 값이 없어, 하단 '*기준' 줄의 날짜로만 드러난다.
+미국은 '주식시장'과 '채권시장' 휴장일이 다르다. 컬럼버스데이(10월 둘째 월요일)와 재향군인의 날(11/11)은
+주식시장은 열지만 채권시장(미 재무부 수익률 발표)은 쉰다. 그래서 금리용 플래그(us_new)는 채권 휴장일을 따로 반영하고,
+skip 판단(us_session)은 주식시장 거래일 기준으로 한다.
 """
-from datetime import timedelta
+from datetime import date, timedelta
 
 import exchange_calendars as xcals
 import pandas as pd
@@ -30,6 +31,21 @@ def _is_session(key, d):
         return True
 
 
+def us_bond_only_holiday(d):
+    """주식시장은 열지만 채권시장은 쉬는 날: 컬럼버스데이(10월 둘째 월요일), 재향군인의 날(11/11).
+
+    11/11이 토요일이면 금요일에 쉬지 않고(채권시장은 토요일 휴일을 앞당겨 쉬지 않는다), 일요일이면 월요일에 쉰다.
+    """
+    if d.month == 10 and d.weekday() == 0 and 8 <= d.day <= 14:
+        return True
+    if d.month == 11:
+        vd = date(d.year, 11, 11)
+        if vd.weekday() == 6:
+            vd += timedelta(days=1)
+        return d == vd and vd.weekday() < 5
+    return False
+
+
 def previous_weekday(d):
     d -= timedelta(days=1)
     while d.weekday() >= 5:
@@ -45,9 +61,18 @@ def window(today):
 
 def status(today):
     days = window(today)
+    weekdays = [d for d in days if d.weekday() < 5]
     out = {"window": [d.isoformat() for d in days]}
-    for key in _CODES:
-        out[f"{key}_new"] = any(_is_session(key, d) for d in days)
-        out[f"{key}_closed"] = [d.isoformat() for d in days if d.weekday() < 5 and not _is_session(key, d)]
-    out["skip"] = not out["kr_new"] and not out["us_new"]
+
+    kr_open = [d for d in days if _is_session("kr", d)]
+    out["kr_new"] = bool(kr_open)
+    out["kr_closed"] = [d.isoformat() for d in weekdays if not _is_session("kr", d)]
+
+    us_stock_open = [d for d in days if _is_session("us", d)]
+    us_rates_open = [d for d in us_stock_open if not us_bond_only_holiday(d)]
+    out["us_session"] = bool(us_stock_open)            # 주식시장 기준 (skip 판단용)
+    out["us_new"] = bool(us_rates_open)                # 채권시장 기준 (금리 수치 표시용)
+    out["us_closed"] = [d.isoformat() for d in weekdays if d not in us_rates_open]
+
+    out["skip"] = not out["kr_new"] and not out["us_session"]
     return out

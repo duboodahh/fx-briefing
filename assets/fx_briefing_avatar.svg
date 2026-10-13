@@ -1,0 +1,222 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+<defs>
+  <radialGradient id="bg" cx="50%" cy="46%" r="75%"><stop offset="0" stop-color="#26397a"/><stop offset=".55" stop-color="#121c48"/><stop offset="1" stop-color="#050818"/></radialGradient>
+  <radialGradient id="earth" cx="36%" cy="30%" r="80%"><stop offset="0" stop-color="#8fd8ff"/><stop offset=".35" stop-color="#2f86d6"/><stop offset=".75" stop-color="#14498f"/><stop offset="1" stop-color="#0a2554"/></radialGradient>
+  <radialGradient id="shade" cx="32%" cy="26%" r="85%"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#020a22" stop-opacity=".62"/></radialGradient>
+  <radialGradient id="atmo" cx="50%" cy="50%" r="50%"><stop offset=".86" stop-color="#7fd0ff" stop-opacity="0"/><stop offset=".97" stop-color="#9fe0ff" stop-opacity=".55"/><stop offset="1" stop-color="#9fe0ff" stop-opacity="0"/></radialGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#cdd4e0"/><stop offset="1" stop-color="#8b95a8"/></linearGradient>
+  <linearGradient id="ringg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e9edf5"/><stop offset=".5" stop-color="#aab3c2"/><stop offset="1" stop-color="#eef1f7"/></linearGradient>
+  <linearGradient id="orange" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffa57a"/><stop offset=".55" stop-color="#e8835a"/><stop offset="1" stop-color="#c9633e"/></linearGradient>
+  <clipPath id="ec"><circle cx="512" cy="600" r="250"/></clipPath>
+  <filter id="glow" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="7"/></filter>
+  <filter id="soft"><feGaussianBlur stdDeviation="2.2"/></filter>
+</defs>
+
+<rect width="1024" height="1024" fill="url(#bg)"/>
+<circle cx="332" cy="154" r="1.2" fill="#fff" opacity="0.39"/>
+<circle cx="549" cy="374" r="1.2" fill="#fff" opacity="0.90"/>
+<circle cx="220" cy="88" r="2.8" fill="#fff" opacity="0.39"/>
+<circle cx="93" cy="435" r="1.2" fill="#fff" opacity="0.92"/>
+<circle cx="646" cy="597" r="1.2" fill="#fff" opacity="0.70"/>
+<circle cx="406" cy="1000" r="1.2" fill="#fff" opacity="0.68"/>
+<circle cx="136" cy="429" r="1.2" fill="#fff" opacity="0.69"/>
+<circle cx="574" cy="698" r="1.2" fill="#fff" opacity="0.70"/>
+<circle cx="654" cy="381" r="1.2" fill="#fff" opacity="0.69"/>
+<circle cx="634" cy="508" r="2.8" fill="#fff" opacity="0.82"/>
+<circle cx="477" cy="946" r="2.2" fill="#fff" opacity="0.53"/>
+<circle cx="813" cy="716" r="1.6" fill="#fff" opacity="0.40"/>
+<circle cx="307" cy="507" r="2.2" fill="#fff" opacity="0.79"/>
+<circle cx="295" cy="1004" r="1.2" fill="#fff" opacity="0.66"/>
+<circle cx="169" cy="350" r="2.8" fill="#fff" opacity="0.60"/>
+<circle cx="985" cy="79" r="2.2" fill="#fff" opacity="0.55"/>
+<circle cx="359" cy="509" r="2.8" fill="#fff" opacity="0.39"/>
+<circle cx="96" cy="276" r="1.2" fill="#fff" opacity="0.39"/>
+<circle cx="718" cy="663" r="2.8" fill="#fff" opacity="0.52"/>
+<circle cx="395" cy="685" r="1.2" fill="#fff" opacity="0.91"/>
+<circle cx="364" cy="626" r="2.8" fill="#fff" opacity="0.39"/>
+<circle cx="787" cy="132" r="1.6" fill="#fff" opacity="0.59"/>
+<circle cx="939" cy="508" r="1.6" fill="#fff" opacity="0.62"/>
+<circle cx="563" cy="905" r="2.8" fill="#fff" opacity="0.87"/>
+<circle cx="285" cy="425" r="2.2" fill="#fff" opacity="0.76"/>
+<circle cx="390" cy="236" r="1.2" fill="#fff" opacity="0.46"/>
+<circle cx="238" cy="239" r="2.8" fill="#fff" opacity="0.85"/>
+<circle cx="187" cy="289" r="1.6" fill="#fff" opacity="0.60"/>
+<circle cx="378" cy="580" r="1.6" fill="#fff" opacity="0.76"/>
+<circle cx="528" cy="632" r="1.2" fill="#fff" opacity="0.62"/>
+<circle cx="892" cy="975" r="2.8" fill="#fff" opacity="0.59"/>
+<circle cx="404" cy="493" r="2.8" fill="#fff" opacity="0.39"/>
+<circle cx="69" cy="214" r="1.6" fill="#fff" opacity="0.42"/>
+<circle cx="615" cy="105" r="1.6" fill="#fff" opacity="0.67"/>
+<circle cx="972" cy="628" r="1.2" fill="#fff" opacity="0.87"/>
+<circle cx="629" cy="152" r="2.2" fill="#fff" opacity="0.92"/>
+<circle cx="617" cy="486" r="1.2" fill="#fff" opacity="0.86"/>
+<circle cx="1017" cy="477" r="2.8" fill="#fff" opacity="0.54"/>
+<circle cx="148" cy="768" r="2.2" fill="#fff" opacity="0.64"/>
+<circle cx="709" cy="529" r="1.6" fill="#fff" opacity="0.92"/>
+<circle cx="541" cy="150" r="1.2" fill="#fff" opacity="0.80"/>
+<circle cx="305" cy="658" r="1.2" fill="#fff" opacity="0.77"/>
+<circle cx="267" cy="376" r="1.6" fill="#fff" opacity="0.56"/>
+<circle cx="228" cy="555" r="2.2" fill="#fff" opacity="0.73"/>
+<circle cx="628" cy="807" r="1.6" fill="#fff" opacity="0.83"/>
+<circle cx="838" cy="758" r="1.6" fill="#fff" opacity="0.47"/>
+<circle cx="505" cy="749" r="1.2" fill="#fff" opacity="0.82"/>
+<circle cx="484" cy="198" r="2.2" fill="#fff" opacity="0.62"/>
+<circle cx="960" cy="1012" r="2.2" fill="#fff" opacity="0.40"/>
+<circle cx="105" cy="481" r="2.2" fill="#fff" opacity="0.47"/>
+<circle cx="639" cy="922" r="1.2" fill="#fff" opacity="0.64"/>
+<circle cx="669" cy="819" r="1.2" fill="#fff" opacity="0.85"/>
+<circle cx="123" cy="398" r="1.6" fill="#fff" opacity="0.64"/>
+<circle cx="183" cy="808" r="2.2" fill="#fff" opacity="0.40"/>
+<circle cx="969" cy="739" r="2.8" fill="#fff" opacity="0.59"/>
+<circle cx="970" cy="742" r="1.6" fill="#fff" opacity="0.95"/>
+<circle cx="28" cy="605" r="2.8" fill="#fff" opacity="0.83"/>
+<circle cx="150" cy="846" r="2.8" fill="#fff" opacity="0.74"/>
+<circle cx="359" cy="562" r="1.6" fill="#fff" opacity="0.36"/>
+<circle cx="819" cy="744" r="1.2" fill="#fff" opacity="0.67"/>
+<circle cx="956" cy="444" r="1.6" fill="#fff" opacity="0.85"/>
+<circle cx="216" cy="258" r="2.2" fill="#fff" opacity="0.65"/>
+<circle cx="782" cy="334" r="2.8" fill="#fff" opacity="0.85"/>
+<circle cx="62" cy="758" r="2.8" fill="#fff" opacity="0.75"/>
+<circle cx="835" cy="529" r="1.6" fill="#fff" opacity="0.67"/>
+<circle cx="536" cy="19" r="2.8" fill="#fff" opacity="0.82"/>
+<circle cx="623" cy="795" r="1.6" fill="#fff" opacity="0.45"/>
+<circle cx="485" cy="743" r="1.2" fill="#fff" opacity="0.55"/>
+<circle cx="531" cy="569" r="1.2" fill="#fff" opacity="0.88"/>
+<circle cx="58" cy="196" r="1.2" fill="#fff" opacity="0.81"/>
+<circle cx="520" cy="575" r="1.2" fill="#fff" opacity="0.62"/>
+<circle cx="627" cy="518" r="1.6" fill="#fff" opacity="0.77"/>
+<circle cx="463" cy="546" r="2.8" fill="#fff" opacity="0.65"/>
+<circle cx="254" cy="536" r="2.2" fill="#fff" opacity="0.90"/>
+<circle cx="914" cy="207" r="2.8" fill="#fff" opacity="0.43"/>
+<circle cx="125" cy="453" r="1.2" fill="#fff" opacity="0.75"/>
+<circle cx="439" cy="218" r="2.2" fill="#fff" opacity="0.82"/>
+<circle cx="919" cy="158" r="2.2" fill="#fff" opacity="0.44"/>
+<circle cx="904" cy="991" r="1.6" fill="#fff" opacity="0.80"/>
+<circle cx="96" cy="906" r="1.6" fill="#fff" opacity="0.94"/>
+<circle cx="852" cy="165" r="2.8" fill="#fff" opacity="0.95"/>
+<circle cx="414" cy="431" r="2.2" fill="#fff" opacity="0.54"/>
+<circle cx="739" cy="20" r="2.8" fill="#fff" opacity="0.61"/>
+<circle cx="19" cy="339" r="2.2" fill="#fff" opacity="0.66"/>
+<circle cx="66" cy="1009" r="1.6" fill="#fff" opacity="0.93"/>
+<circle cx="107" cy="272" r="1.2" fill="#fff" opacity="0.89"/>
+<circle cx="186" cy="774" r="2.8" fill="#fff" opacity="0.86"/>
+<circle cx="692" cy="969" r="2.8" fill="#fff" opacity="0.44"/>
+<circle cx="941" cy="584" r="2.2" fill="#fff" opacity="0.40"/>
+<circle cx="59" cy="705" r="2.8" fill="#fff" opacity="0.89"/>
+<path d="M170 174 L174 186 L186 190 L174 194 L170 206 L166 194 L154 190 L166 186 Z" fill="#fff6c8" opacity=".9"/><path d="M860 234 L864 246 L876 250 L864 254 L860 266 L856 254 L844 250 L856 246 Z" fill="#fff6c8" opacity=".9"/><path d="M120 784 L124 796 L136 800 L124 804 L120 816 L116 804 L104 800 L116 796 Z" fill="#fff6c8" opacity=".9"/><path d="M900 824 L904 836 L916 840 L904 844 L900 856 L896 844 L884 840 L896 836 Z" fill="#fff6c8" opacity=".9"/><path d="M780 114 L784 126 L796 130 L784 134 L780 146 L776 134 L764 130 L776 126 Z" fill="#fff6c8" opacity=".9"/>
+
+<!-- 링 뒤쪽 -->
+<path d="M99.7 680.1 A420 104 -11 0 1 924.3 519.9" fill="none" stroke="#cfe6ff" stroke-width="20" opacity=".5" filter="url(#glow)"/>
+<path d="M99.7 680.1 A420 104 -11 0 1 924.3 519.9" fill="none" stroke="url(#ringg)" stroke-width="12" opacity=".75"/>
+<g opacity="0.55">
+  <circle cx="492.2" cy="501.0" r="31.2" fill="#000" opacity=".25"/>
+  <circle cx="492.2" cy="497.9" r="31.2" fill="url(#gold)" stroke="#667085" stroke-width="1.7"/>
+  <circle cx="492.2" cy="497.9" r="24.3" fill="none" stroke="#ffffff" stroke-opacity=".7" stroke-width="1.2"/>
+  <text x="492.2" y="509.1" text-anchor="middle" font-size="32.8" font-weight="800"
+        font-family="'Arial Rounded MT Bold','Helvetica Neue','Apple SD Gothic Neo',Arial,sans-serif" fill="#394256">¥</text>
+  <ellipse cx="482.2" cy="482.3" rx="8.7" ry="4.4" fill="#fff" opacity=".55" transform="rotate(-25 482.2 482.3)"/>
+</g>
+<g opacity="0.62">
+  <circle cx="789.5" cy="474.5" r="33.1" fill="#000" opacity=".25"/>
+  <circle cx="789.5" cy="471.1" r="33.1" fill="url(#gold)" stroke="#667085" stroke-width="1.8"/>
+  <circle cx="789.5" cy="471.1" r="25.8" fill="none" stroke="#ffffff" stroke-opacity=".7" stroke-width="1.3"/>
+  <text x="789.5" y="483.1" text-anchor="middle" font-size="34.7" font-weight="800"
+        font-family="'Arial Rounded MT Bold','Helvetica Neue','Apple SD Gothic Neo',Arial,sans-serif" fill="#394256">€</text>
+  <ellipse cx="778.9" cy="454.6" rx="9.3" ry="4.6" fill="#fff" opacity=".55" transform="rotate(-25 778.9 454.6)"/>
+</g>
+<g opacity="0.62">
+  <circle cx="206.4" cy="587.8" r="33.1" fill="#000" opacity=".25"/>
+  <circle cx="206.4" cy="584.5" r="33.1" fill="url(#gold)" stroke="#667085" stroke-width="1.8"/>
+  <circle cx="206.4" cy="584.5" r="25.8" fill="none" stroke="#ffffff" stroke-opacity=".7" stroke-width="1.3"/>
+  <text x="206.4" y="596.4" text-anchor="middle" font-size="34.7" font-weight="800"
+        font-family="'Arial Rounded MT Bold','Helvetica Neue','Apple SD Gothic Neo',Arial,sans-serif" fill="#394256">$</text>
+  <ellipse cx="195.9" cy="567.9" rx="9.3" ry="4.6" fill="#fff" opacity=".55" transform="rotate(-25 195.9 567.9)"/>
+</g>
+
+<!-- 지구 -->
+<circle cx="512" cy="600" r="276" fill="#7fd0ff" opacity=".22" filter="url(#glow)"/>
+<circle cx="512" cy="600" r="250" fill="url(#earth)"/>
+<g clip-path="url(#ec)">
+  <g fill="#43b36b" opacity=".95">
+    <path d="M300 520 C340 470 420 470 450 510 C480 545 440 590 470 630 C490 670 440 720 400 700 C360 680 340 640 320 610 C300 585 280 560 300 520 Z"/>
+    <path d="M560 470 C610 440 700 450 740 500 C770 540 730 570 700 560 C670 600 700 640 660 660 C620 680 590 630 600 590 C570 570 520 500 560 470 Z"/>
+    <path d="M610 700 C650 690 700 710 690 750 C680 790 630 800 610 770 C595 745 590 715 610 700 Z"/>
+    <path d="M380 770 C420 750 470 770 460 805 C450 835 400 840 380 815 C365 800 365 782 380 770 Z"/>
+  </g>
+  <g fill="#7fd68e" opacity=".55">
+    <path d="M320 535 C350 500 410 500 430 525 C400 540 360 545 320 535 Z"/>
+    <path d="M590 480 C630 462 690 470 715 500 C680 505 630 505 590 480 Z"/>
+  </g>
+  <g fill="#fff" opacity=".7" filter="url(#soft)">
+    <ellipse cx="430" cy="430" rx="95" ry="22"/><ellipse cx="640" cy="640" rx="85" ry="18"/>
+    <ellipse cx="360" cy="690" rx="70" ry="16"/><ellipse cx="700" cy="420" rx="70" ry="15"/>
+  </g>
+  <circle cx="512" cy="600" r="250" fill="url(#shade)"/>
+  <ellipse cx="420" cy="440" rx="120" ry="70" fill="#fff" opacity=".13" transform="rotate(-30 420 440)" filter="url(#soft)"/>
+</g>
+<circle cx="512" cy="600" r="250" fill="url(#atmo)"/>
+
+<!-- 마스코트: 지구 꼭대기에 '앉아 있는' 코딩 크리처 -->
+<g transform="translate(512 382) rotate(-4) scale(1.34) translate(-512 -340)">
+  <ellipse cx="512" cy="342" rx="108" ry="17" fill="#000" opacity=".32" filter="url(#soft)"/>
+  <rect x="385" y="258" width="34" height="40" rx="9" fill="url(#orange)"/>
+  <rect x="605" y="258" width="34" height="40" rx="9" fill="url(#orange)"/>
+  <rect x="414" y="205" width="196" height="128" rx="22" fill="url(#orange)"/>
+  <rect x="424" y="212" width="176" height="14" rx="7" fill="#fff" opacity=".28"/>
+  <rect x="414" y="306" width="196" height="27" rx="13" fill="#9c4326" opacity=".2"/>
+  <!-- 앞으로 내민 발 -->
+  <rect x="420" y="311" width="58" height="32" rx="14" fill="#d26b46"/>
+  <rect x="546" y="311" width="58" height="32" rx="14" fill="#d26b46"/>
+  <rect x="428" y="316" width="42" height="7" rx="3.5" fill="#fff" opacity=".25"/>
+  <rect x="554" y="316" width="42" height="7" rx="3.5" fill="#fff" opacity=".25"/>
+  <rect x="456" y="243" width="26" height="46" rx="8" fill="#241210"/>
+  <rect x="542" y="243" width="26" height="46" rx="8" fill="#241210"/>
+  <circle cx="465" cy="255" r="5.5" fill="#fff"/><circle cx="551" cy="255" r="5.5" fill="#fff"/>
+  <ellipse cx="438" cy="298" rx="14" ry="8" fill="#ff8f8f" opacity=".7"/><ellipse cx="586" cy="298" rx="14" ry="8" fill="#ff8f8f" opacity=".7"/>
+</g>
+
+<!-- 링 앞쪽 -->
+<path d="M99.7 680.1 A420 104 -11 0 0 924.3 519.9" fill="none" stroke="#cfe6ff" stroke-width="24" opacity=".55" filter="url(#glow)"/>
+<path d="M99.7 680.1 A420 104 -11 0 0 924.3 519.9" fill="none" stroke="url(#ringg)" stroke-width="15"/>
+<path d="M99.7 680.1 A420 104 -11 0 0 924.3 519.9" fill="none" stroke="#ffffff" stroke-width="3.5" opacity=".85" transform="translate(0 -2)"/>
+<g opacity="0.78">
+  <circle cx="924.3" cy="523.6" r="37.6" fill="#000" opacity=".25"/>
+  <circle cx="924.3" cy="519.9" r="37.6" fill="url(#gold)" stroke="#667085" stroke-width="2.1"/>
+  <circle cx="924.3" cy="519.9" r="29.3" fill="none" stroke="#ffffff" stroke-opacity=".7" stroke-width="1.5"/>
+  <text x="924.3" y="533.4" text-anchor="middle" font-size="39.5" font-weight="800"
+        font-family="'Arial Rounded MT Bold','Helvetica Neue','Apple SD Gothic Neo',Arial,sans-serif" fill="#394256">¥</text>
+  <ellipse cx="912.3" cy="501.1" rx="10.5" ry="5.3" fill="#fff" opacity=".55" transform="rotate(-25 912.3 501.1)"/>
+</g>
+<g opacity="0.78">
+  <circle cx="99.7" cy="683.9" r="37.6" fill="#000" opacity=".25"/>
+  <circle cx="99.7" cy="680.1" r="37.6" fill="url(#gold)" stroke="#667085" stroke-width="2.1"/>
+  <circle cx="99.7" cy="680.1" r="29.3" fill="none" stroke="#ffffff" stroke-opacity=".7" stroke-width="1.5"/>
+  <text x="99.7" y="693.7" text-anchor="middle" font-size="39.5" font-weight="800"
+        font-family="'Arial Rounded MT Bold','Helvetica Neue','Apple SD Gothic Neo',Arial,sans-serif" fill="#394256">£</text>
+  <ellipse cx="87.7" cy="661.3" rx="10.5" ry="5.3" fill="#fff" opacity=".55" transform="rotate(-25 87.7 661.3)"/>
+</g>
+<g opacity="0.93">
+  <circle cx="817.6" cy="619.7" r="42.1" fill="#000" opacity=".25"/>
+  <circle cx="817.6" cy="615.5" r="42.1" fill="url(#gold)" stroke="#667085" stroke-width="2.3"/>
+  <circle cx="817.6" cy="615.5" r="32.9" fill="none" stroke="#ffffff" stroke-opacity=".7" stroke-width="1.7"/>
+  <text x="817.6" y="630.7" text-anchor="middle" font-size="44.2" font-weight="800"
+        font-family="'Arial Rounded MT Bold','Helvetica Neue','Apple SD Gothic Neo',Arial,sans-serif" fill="#394256">$</text>
+  <ellipse cx="804.1" cy="594.5" rx="11.8" ry="5.9" fill="#fff" opacity=".55" transform="rotate(-25 804.1 594.5)"/>
+</g>
+<g opacity="0.93">
+  <circle cx="234.5" cy="733.1" r="42.1" fill="#000" opacity=".25"/>
+  <circle cx="234.5" cy="728.9" r="42.1" fill="url(#gold)" stroke="#667085" stroke-width="2.3"/>
+  <circle cx="234.5" cy="728.9" r="32.9" fill="none" stroke="#ffffff" stroke-opacity=".7" stroke-width="1.7"/>
+  <text x="234.5" y="744.0" text-anchor="middle" font-size="44.2" font-weight="800"
+        font-family="'Arial Rounded MT Bold','Helvetica Neue','Apple SD Gothic Neo',Arial,sans-serif" fill="#394256">€</text>
+  <ellipse cx="221.0" cy="707.8" rx="11.8" ry="5.9" fill="#fff" opacity=".55" transform="rotate(-25 221.0 707.8)"/>
+</g>
+<g opacity="1.00">
+  <circle cx="531.8" cy="706.5" r="44.0" fill="#000" opacity=".25"/>
+  <circle cx="531.8" cy="702.1" r="44.0" fill="url(#gold)" stroke="#667085" stroke-width="2.4"/>
+  <circle cx="531.8" cy="702.1" r="34.3" fill="none" stroke="#ffffff" stroke-opacity=".7" stroke-width="1.8"/>
+  <text x="531.8" y="717.9" text-anchor="middle" font-size="46.2" font-weight="800"
+        font-family="'Arial Rounded MT Bold','Helvetica Neue','Apple SD Gothic Neo',Arial,sans-serif" fill="#394256">₩</text>
+  <ellipse cx="517.8" cy="680.1" rx="12.3" ry="6.2" fill="#fff" opacity=".55" transform="rotate(-25 517.8 680.1)"/>
+</g>
+</svg>
