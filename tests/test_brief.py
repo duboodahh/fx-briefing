@@ -43,3 +43,23 @@ def test_select_news_caps_per_source_and_orders_newest_first():
     assert out[0]["source"] == "B"                       # 가장 최신
     assert all(len(n["summary"]) <= build_input.SUMMARY_CHARS for n in out)
     assert [n["id"] for n in out] == list(range(1, len(out) + 1))
+
+
+def test_select_news_caps_same_publisher_across_feeds():
+    items = [{"source": f"CNBC {k}", "publisher": "CNBC", "title": f"{k}{i}", "summary": "",
+              "published": f"2026-10-0{i + 1}T00:00+00:00"} for k in "AB" for i in range(5)]
+    items += [{"source": "FT", "title": "ft", "summary": "", "published": "2026-10-01T00:00+00:00"}]
+    out = build_input.select_news(items)
+    assert sum(1 for n in out if n["publisher"] == "CNBC") == build_input.NEWS_PER_PUBLISHER
+    assert any(n["source"] == "FT" and n["publisher"] == "FT" for n in out)       # publisher 없으면 source로 대체
+
+
+def test_daily_clean_picks_limits_same_publisher_to_two():
+    from src.brief import generate
+    mk = lambda i, pub, src=None: {"id": i, "source": src or pub, "publisher": pub, "title": "t", "summary": ""}
+    data = {"news_intl": [mk(1, "CNBC", "CNBC Markets"), mk(2, "CNBC", "CNBC Economy"), mk(3, "CNBC", "CNBC Tech"), mk(4, "FT")],
+            "news_kr": [mk(5, "연합뉴스"), mk(6, "연합뉴스"), mk(7, "연합뉴스"), mk(8, "한국경제")]}
+    raw = {"intl": [{"id": i, "summary": "가"} for i in (1, 2, 3, 4)], "kr": [{"id": i, "summary": "나"} for i in (5, 6, 7, 8)]}
+    picks, problems = generate.clean_picks(raw, data)
+    assert [p["id"] for p in picks["intl"]] == [1, 2, 4] and [p["id"] for p in picks["kr"]] == [5, 6, 8]
+    assert any("CNBC" in p for p in problems) and any("연합뉴스" in p for p in problems)

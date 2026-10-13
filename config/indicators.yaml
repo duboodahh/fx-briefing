@@ -29,11 +29,14 @@ news:
     # 국외
     - {name: "Fed Press",          region: intl, url: "https://www.federalreserve.gov/feeds/press_all.xml"}
     - {name: "Fed Monetary",       region: intl, url: "https://www.federalreserve.gov/feeds/press_monetary.xml"}
-    - {name: "CNBC Markets",       region: intl, url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839069"}
-    - {name: "CNBC Economy",       region: intl, url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258"}
+    - {name: "CNBC Markets",       publisher: CNBC, region: intl, url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839069"}
+    - {name: "CNBC Economy",       publisher: CNBC, region: intl, url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258"}
     - {name: "FXStreet",           region: intl, url: "https://www.fxstreet.com/rss/news"}
     - {name: "BBC Business",       region: intl, url: "https://feeds.bbci.co.uk/news/business/rss.xml"}
     - {name: "NYT Economy",        region: intl, url: "https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml"}
+    - {name: "WSJ Markets",        region: intl, url: "https://feeds.content.dowjones.io/public/rss/RSSMarketsMain"}
+    - {name: "MarketWatch",        region: intl, url: "https://feeds.content.dowjones.io/public/rss/mw_topstories"}
+    - {name: "FT",                 region: intl, url: "https://www.ft.com/rss/home"}
     # 국내
     - {name: "BOK English",        region: kr,   url: "https://www.bok.or.kr/eng/bbs/E0000634/news.rss?menuNo=400423"}
     - {name: "연합뉴스",            region: kr,   title_filter: *kr_filter, url: "https://www.yna.co.kr/rss/economy.xml"}

@@ -47,3 +47,11 @@ def test_window_hours_spans_from_previous_close():
     assert h == 76
     # 짧은 구간이라도 최소 24시간
     assert onews.window_hours(date(2026, 10, 13), datetime(2026, 10, 13, 22, 0, tzinfo=timezone.utc), margin=0) >= 24
+
+
+def test_rank_caps_same_publisher_across_feeds():
+    # CNBC 계열 피드 3개(각 3건)는 한 발행처로 묶여 합계 상한(4건)을 넘지 못하고, 다른 발행처가 자리를 얻는다
+    items = [{**item(f"CNBC {k}", 2, f"2026-10-13T0{i}:00"), "publisher": "CNBC"} for k in "ABC" for i in range(3)]
+    items += [item("FT", 2, "2026-10-12T01:00")]
+    out, _ = onews.rank(items, per_source=6, max_total=80, per_publisher=4)
+    assert [c["publisher"] for c in out].count("CNBC") == 4 and any(c["source"] == "FT" for c in out)

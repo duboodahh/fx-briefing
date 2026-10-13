@@ -64,12 +64,17 @@ def _cost(usage):
     return (usage.input_tokens * PRICE_PER_MTOK["input"] + usage.output_tokens * PRICE_PER_MTOK["output"]) / 1_000_000
 
 
+MAX_PER_PUBLISHER = 2   # 선택한 6건 중 같은 발행처는 최대 2건 (한 매체 편중 방지)
+
+
 def clean_picks(raw, data):
     """모델 결과를 정리한다. 후보에 없는 id·다른 지역 id·중복은 버리고, 개수는 지역당 최대 3개로 자른다.
 
     반환: (picks, problems). problems는 재시도 시 모델에게 알려줄 문제 목록.
     """
     valid = {"intl": {n["id"] for n in data["news_intl"]}, "kr": {n["id"] for n in data["news_kr"]}}
+    pub_of = {n["id"]: n.get("publisher") or n["source"] for n in data["news_intl"] + data["news_kr"]}
+    pub_count = {}
     picks, problems, seen = {"intl": [], "kr": []}, [], set()
     for region in ("intl", "kr"):
         for p in raw.get(region, []):
@@ -79,7 +84,10 @@ def clean_picks(raw, data):
                 problems.append(f"id {p['id']} 중복")
             elif not p["summary"].strip():
                 problems.append(f"id {p['id']}의 요약이 비어 있음")
+            elif pub_count.get(pub_of[p["id"]], 0) >= MAX_PER_PUBLISHER:
+                problems.append(f"{pub_of[p['id']]} 기사는 전체에서 최대 {MAX_PER_PUBLISHER}건 (id {p['id']} 제외)")
             else:
+                pub_count[pub_of[p["id"]]] = pub_count.get(pub_of[p["id"]], 0) + 1
                 seen.add(p["id"])
                 picks[region].append({"id": p["id"], "summary": p["summary"].strip()})
         picks[region] = picks[region][: render.NEWS_PER_REGION]

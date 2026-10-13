@@ -95,3 +95,27 @@ def test_render_both_languages_same_facts_and_links():
     assert "• 다우 51,850.55 (+0.38%)" in ko and "• 다우 51,850.55 (+0.38%)" in en
     assert "• 달러/원 1,335.10원 (-7.70원)" in ko and "• 달러/원 1,335.10 (-7.70 won)" in en
     assert "• WTI 93.74달러 (+2.06%)" in ko and "• WTI $93.74 (+2.06%)" in en
+
+
+# ---- 한 발행처 편중 방지 ----
+def _cnbc(i, topic="both"):
+    return {"id": i, "source": f"CNBC Feed{i}", "publisher": "CNBC", "tier": 2, "topic": topic, "lang": "en",
+            "title": f"t{i}", "summary": "", "published_utc": "2026-10-13T08:00", "url": f"https://www.cnbc.com/{i}"}
+
+
+def test_clean_picks_limits_same_publisher_to_two_across_all_six():
+    cands = [_cnbc(1), _cnbc(2), _cnbc(3), _cnbc(4)] + [
+        {**_cnbc(5), "source": "WSJ Markets", "publisher": "WSJ"}, {**_cnbc(6), "source": "FT", "publisher": "FT"}]
+    d = {**DATA, "news": {"candidates": cands}}
+    raw = {"summary": {"ko": "a", "en": "b"},
+           "equity": [{"id": i, "ko": "가", "en": "a"} for i in (1, 2, 3)],       # 같은 CNBC 3건
+           "ficc": [{"id": 4, "ko": "나", "en": "b"}, {"id": 5, "ko": "다", "en": "c"}, {"id": 6, "ko": "라", "en": "d"}]}
+    picks, problems = og.clean_picks(raw, d)
+    ids = [p["id"] for s in picks.values() for p in s]
+    assert ids == [1, 2, 5, 6]                       # CNBC는 2건까지(1,2), 3·4번은 제외, WSJ·FT는 통과
+    assert any("CNBC" in p and "최대 2건" in p for p in problems)
+
+
+def test_payload_exposes_publisher_with_source_fallback():
+    p = og.build_payload({**DATA, "news": {"candidates": [_cnbc(1), CANDS[0]]}})
+    assert p["news"][0]["publisher"] == "CNBC" and p["news"][1]["publisher"] == "WSJ Markets"   # publisher 없으면 source

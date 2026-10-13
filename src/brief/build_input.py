@@ -13,7 +13,8 @@ ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data"
 WEEKDAYS = "월화수목금토일"
 
-NEWS_PER_SOURCE = 8   # 한 매체가 입력을 독점하지 않도록
+NEWS_PER_SOURCE = 8   # 한 매체(피드)가 입력을 독점하지 않도록
+NEWS_PER_PUBLISHER = 10  # 같은 회사의 여러 피드(CNBC 등)가 합쳐서 독점하지 않도록 (피드 1개짜리 매체는 위의 피드 상한이 먼저 적용)
 NEWS_MAX_TOTAL = {"intl": 36, "kr": 24}
 SUMMARY_CHARS = 200
 
@@ -25,17 +26,20 @@ def _load(name):
 
 def select_news(items, max_total=60, id_start=1):
     """매체별 최신 NEWS_PER_SOURCE개만 남기고, 전체를 최신순으로 max_total개까지. id는 id_start부터 부여."""
-    count, picked = {}, []
+    count, pub_count, picked = {}, {}, []
     for it in sorted(items, key=lambda x: x["published"], reverse=True):
-        if count.get(it["source"], 0) >= NEWS_PER_SOURCE:
+        pub = it.get("publisher") or it["source"]
+        if count.get(it["source"], 0) >= NEWS_PER_SOURCE or pub_count.get(pub, 0) >= NEWS_PER_PUBLISHER:
             continue
         count[it["source"]] = count.get(it["source"], 0) + 1
+        pub_count[pub] = pub_count.get(pub, 0) + 1
         picked.append(it)
     picked = picked[:max_total]
     return [
         {
             "id": id_start + i,
             "source": it["source"],
+            "publisher": it.get("publisher") or it["source"],
             "title": it["title"],
             "summary": it["summary"][:SUMMARY_CHARS],
             "published_utc": it["published"],

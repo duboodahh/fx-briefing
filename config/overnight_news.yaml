@@ -2,6 +2,7 @@
 # domains: 이 피드의 기사가 연결되어야 하는 발행처 도메인. 링크가 다른 곳(구글뉴스 등)이면 '원문 없음'으로 보고 후보에서 뺀다.
 # topic: equity | ficc | both (이 피드가 주로 다루는 분야 힌트)
 max_per_source: 6
+max_per_publisher: 10   # 같은 회사의 여러 피드(CNBC 5개 등)가 후보를 독점하지 않도록
 max_total: 80
 window_margin_hours: 2   # 직전 미국 장 마감 시점부터 지금까지 + 여유
 
@@ -11,15 +12,15 @@ feeds:
   - {name: "Fed Speeches", tier: 1, topic: ficc, lang: en, domains: [federalreserve.gov], url: "https://www.federalreserve.gov/feeds/speeches.xml"}
   - {name: "ECB Press",    tier: 1, topic: ficc, lang: en, domains: [ecb.europa.eu],       url: "https://www.ecb.europa.eu/rss/press.html"}
   # --- 2등급: 주요 언론 (영문) ---
-  - {name: "WSJ Markets",     tier: 2, topic: both,   lang: en, domains: [wsj.com],         url: "https://feeds.content.dowjones.io/public/rss/RSSMarketsMain"}
-  - {name: "WSJ US Business", tier: 2, topic: equity, lang: en, domains: [wsj.com],         url: "https://feeds.content.dowjones.io/public/rss/WSJcomUSBusiness"}
+  - {name: "WSJ Markets", publisher: WSJ,     tier: 2, topic: both,   lang: en, domains: [wsj.com],         url: "https://feeds.content.dowjones.io/public/rss/RSSMarketsMain"}
+  - {name: "WSJ US Business", publisher: WSJ, tier: 2, topic: equity, lang: en, domains: [wsj.com],         url: "https://feeds.content.dowjones.io/public/rss/WSJcomUSBusiness"}
   - {name: "MarketWatch",     tier: 2, topic: both,   lang: en, domains: [marketwatch.com], url: "https://feeds.content.dowjones.io/public/rss/mw_topstories"}
   - {name: "FT",              tier: 2, topic: both,   lang: en, domains: [ft.com],          url: "https://www.ft.com/rss/home"}
-  - {name: "CNBC Markets",    tier: 2, topic: both,   lang: en, domains: [cnbc.com],        url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839069"}
-  - {name: "CNBC Earnings",   tier: 2, topic: equity, lang: en, domains: [cnbc.com],        url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839135"}
-  - {name: "CNBC Tech",       tier: 2, topic: equity, lang: en, domains: [cnbc.com],        url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=19854910"}
-  - {name: "CNBC Energy",     tier: 2, topic: ficc,   lang: en, domains: [cnbc.com],        url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=19836768"}
-  - {name: "CNBC Economy",    tier: 2, topic: ficc,   lang: en, domains: [cnbc.com],        url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258"}
+  - {name: "CNBC Markets", publisher: CNBC,    tier: 2, topic: both,   lang: en, domains: [cnbc.com],        url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839069"}
+  - {name: "CNBC Earnings", publisher: CNBC,   tier: 2, topic: equity, lang: en, domains: [cnbc.com],        url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839135"}
+  - {name: "CNBC Tech", publisher: CNBC,       tier: 2, topic: equity, lang: en, domains: [cnbc.com],        url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=19854910"}
+  - {name: "CNBC Energy", publisher: CNBC,     tier: 2, topic: ficc,   lang: en, domains: [cnbc.com],        url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=19836768"}
+  - {name: "CNBC Economy", publisher: CNBC,    tier: 2, topic: ficc,   lang: en, domains: [cnbc.com],        url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258"}
   - {name: "Guardian Business", tier: 2, topic: both, lang: en, domains: [theguardian.com], url: "https://www.theguardian.com/uk/business/rss"}
   - {name: "NYT Economy",     tier: 2, topic: ficc,   lang: en, domains: [nytimes.com],     url: "https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml"}
   # --- 2등급: 한국어 (미국장 관련 제목만) ---

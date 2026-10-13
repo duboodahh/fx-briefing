@@ -35,22 +35,24 @@ def window_hours(session, now_utc, margin=2):
     return max(24, int((now_utc - prev_close).total_seconds() // 3600) + margin)
 
 
-def rank(items, per_source, max_total):
+def rank(items, per_source, max_total, per_publisher=10):
     """원문 있는 기사만 남겨 등급·최신순으로 정렬하고 매체별·전체 상한을 적용한다. 반환: (후보 목록, 원문 없어 제외한 수)."""
     originals = [i for i in items if i.get("original")]
     excluded = len(items) - len(originals)
     originals.sort(key=lambda x: x["published"], reverse=True)       # 최신순(안정 정렬의 바탕)
     originals.sort(key=lambda x: x["tier"])                          # 등급 우선
-    count, picked = {}, []
+    count, pub_count, picked = {}, {}, []
     for it in originals:
-        if count.get(it["source"], 0) >= per_source:
+        pub = it.get("publisher") or it["source"]
+        if count.get(it["source"], 0) >= per_source or pub_count.get(pub, 0) >= per_publisher:
             continue
         count[it["source"]] = count.get(it["source"], 0) + 1
+        pub_count[pub] = pub_count.get(pub, 0) + 1
         picked.append(it)
     picked = picked[:max_total]
     return [
         {
-            "id": n + 1, "source": it["source"], "tier": it["tier"], "topic": it["topic"], "lang": it["lang"],
+            "id": n + 1, "source": it["source"], "publisher": it.get("publisher") or it["source"], "tier": it["tier"], "topic": it["topic"], "lang": it["lang"],
             "title": it["title"], "summary": it["summary"][:SUMMARY_CHARS],
             "published_utc": it["published"], "url": clean_url(it["link"]),
         }
@@ -63,7 +65,7 @@ def collect_news(session, now_utc=None):
     now_utc = now_utc or datetime.now(timezone.utc)
     hours = window_hours(session, now_utc, cfg["window_margin_hours"])
     items, errors = news.collect(cfg["feeds"], max_age_hours=hours)
-    cands, excluded = rank(items, cfg["max_per_source"], cfg["max_total"])
+    cands, excluded = rank(items, cfg["max_per_source"], cfg["max_total"], cfg.get("max_per_publisher", 10))
     by_source = {}
     for c in cands:
         by_source[c["source"]] = by_source.get(c["source"], 0) + 1

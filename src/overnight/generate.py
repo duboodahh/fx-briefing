@@ -14,6 +14,7 @@ from src.brief import verify
 ROOT = Path(__file__).resolve().parents[2]
 PROMPT = ROOT / "prompts" / "overnight.md"
 PER_SECTION = 3
+MAX_PER_PUBLISHER = 2   # 선택한 6건 중 같은 발행처는 최대 2건 (한 매체 편중 방지)
 
 _ITEM = {
     "type": "object",
@@ -57,7 +58,8 @@ def build_payload(data):
             "energy": [row(r, "last", "change_pct") for r in data["energy"]],
         },
         "news": [
-            {k: c[k] for k in ("id", "source", "tier", "topic", "lang", "title", "summary", "published_utc")}
+            {**{k: c[k] for k in ("id", "source", "tier", "topic", "lang", "title", "summary", "published_utc")},
+             "publisher": c.get("publisher") or c["source"]}
             for c in data["news"]["candidates"]
         ],
     }
@@ -66,6 +68,8 @@ def build_payload(data):
 def clean_picks(raw, data):
     """후보에 없는 id·중복·빈 요약은 버리고 섹션당 3개로 자른다. 반환: (picks, problems)."""
     valid = {c["id"] for c in data["news"]["candidates"]}
+    pub_of = {c["id"]: c.get("publisher") or c["source"] for c in data["news"]["candidates"]}
+    pub_count = {}
     picks, problems, seen = {"equity": [], "ficc": []}, [], set()
     for section in ("equity", "ficc"):
         for p in raw.get(section, []):
@@ -75,7 +79,10 @@ def clean_picks(raw, data):
                 problems.append(f"id {p['id']} 중복")
             elif not p["ko"].strip() or not p["en"].strip():
                 problems.append(f"id {p['id']}의 한국어/영어 요약이 비어 있음")
+            elif pub_count.get(pub_of[p["id"]], 0) >= MAX_PER_PUBLISHER:
+                problems.append(f"{pub_of[p['id']]} 기사는 전체에서 최대 {MAX_PER_PUBLISHER}건 (id {p['id']} 제외)")
             else:
+                pub_count[pub_of[p["id"]]] = pub_count.get(pub_of[p["id"]], 0) + 1
                 seen.add(p["id"])
                 picks[section].append({"id": p["id"], "ko": p["ko"].strip(), "en": p["en"].strip()})
         picks[section] = picks[section][:PER_SECTION]

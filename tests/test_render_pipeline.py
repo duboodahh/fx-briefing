@@ -89,7 +89,7 @@ def test_negative_zero_is_not_shown():
 
 
 def test_clean_picks_drops_bad_ids_and_caps_three():
-    d = {**DATA, "news_intl": [{"id": i, "source": "X", "title": "t", "summary": ""} for i in (1, 2, 3, 4)], "news_kr": []}
+    d = {**DATA, "news_intl": [{"id": i, "source": f"X{i}", "title": "t", "summary": ""} for i in (1, 2, 3, 4)], "news_kr": []}
     raw = {"intl": [{"id": 1, "summary": "a"}, {"id": 2, "summary": "b"}, {"id": 3, "summary": "c"},
                     {"id": 4, "summary": "d"}, {"id": 99, "summary": "x"}, {"id": 1, "summary": "dup"}],
            "kr": [{"id": 1, "summary": "다른 지역 id"}]}
