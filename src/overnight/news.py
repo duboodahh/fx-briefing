@@ -52,7 +52,7 @@ def rank(items, per_source, max_total, per_publisher=10):
     picked = picked[:max_total]
     return [
         {
-            "id": n + 1, "source": it["source"], "publisher": it.get("publisher") or it["source"], "tier": it["tier"], "topic": it["topic"], "lang": it["lang"],
+            "id": n + 1, "source": it["source"], "source_en": it.get("source_en") or it["source"], "publisher": it.get("publisher") or it["source"], "tier": it["tier"], "topic": it["topic"], "lang": it["lang"],
             "title": it["title"], "summary": it["summary"][:SUMMARY_CHARS],
             "published_utc": it["published"], "url": clean_url(it["link"]),
         }

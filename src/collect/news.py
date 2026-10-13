@@ -92,6 +92,7 @@ def collect(feeds, **kw):
                     it["tier"] = f.get("tier", 3)           # 1=원 출처, 2=주요 언론, 3=전문 사이트(보조)
                     it["topic"] = f.get("topic", "both")    # equity | ficc | both (피드가 다루는 분야 힌트)
                     it["lang"] = f.get("lang", "en")
+                    it["source_en"] = f.get("name_en") or f["name"]   # 영어판에 표시할 매체명 (한국 매체는 영문명)
                     it["publisher"] = f.get("publisher") or f["name"]   # 같은 회사의 여러 피드(CNBC 등)를 하나로 묶는 키
                     it["original"] = is_original(it.get("link"), f.get("domains"))
                     items.append(it)

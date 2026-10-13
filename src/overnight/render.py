@@ -123,6 +123,11 @@ def _notes(data, lang):
     return notes
 
 
+def _source(c, lang):
+    """기사 출처 표시: 영어판은 영문 매체명(source_en), 없으면 source."""
+    return (c.get("source_en") or c["source"]) if lang == "en" else c["source"]
+
+
 def _news_lines(picks, candidates, lang, empty_text):
     """선택한 기사 → '• 요약 (출처)' 줄 + 바로 아래 원문 주소 줄. 원문 주소는 후보 데이터에서 id로 찾아 그대로 쓴다."""
     by_id = {c["id"]: c for c in candidates}
@@ -131,9 +136,23 @@ def _news_lines(picks, candidates, lang, empty_text):
     lines = []
     for p in picks:
         c = by_id[p["id"]]
-        lines.append(f"{BULLET} {p[lang]} ({c['source']})")
+        lines.append(f"{BULLET} {p[lang]} ({_source(c, lang)})")
         if c.get("url"):
             lines.append(f"  {c['url']}")
+    return lines
+
+
+def _ficc_lines(sentences, candidates, lang, empty_text):
+    """FICC 시황 코멘트 → '• 문장 (근거 출처)' 줄 + 근거 기사의 원문 주소 줄. 근거가 없는 줄(시세만으로 쓴 줄)에는 출처·주소가 붙지 않는다."""
+    by_id = {c["id"]: c for c in candidates}
+    if not sentences:
+        return [f"{BULLET} {empty_text}"]
+    lines = []
+    for s in sentences:
+        cited = [by_id[i] for i in s["ids"] if i in by_id]
+        sources = ", ".join(dict.fromkeys(_source(c, lang) for c in cited))
+        lines.append(f"{BULLET} {s[lang]}" + (f" ({sources})" if sources else ""))
+        lines += [f"  {c['url']}" for c in cited if c.get("url")]
     return lines
 
 
@@ -157,7 +176,7 @@ def render(data, result=None, lang="ko", news_failed=False):
         cands = data["news"]["candidates"]
         empty = L["failed"] if news_failed else L["empty"]  # 요약 생성에 실패했을 때는 사유를 밝혀 수치만이라도 보낸다
         equity_news = _news_lines(result["picks"]["equity"], cands, lang, empty)
-        ficc_news = _news_lines(result["picks"]["ficc"], cands, lang, empty)
+        ficc_news = _ficc_lines(result["picks"]["ficc"], cands, lang, empty)
 
     equity = [L["equity"]] + equity_news + _index_lines(data, lang)
     ficc = [L["ficc"]] + ficc_news + _rate_lines(data, lang) + _fx_energy_lines(data, lang)

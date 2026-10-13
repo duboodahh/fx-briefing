@@ -24,9 +24,9 @@ feeds:
   - {name: "Guardian Business", tier: 2, topic: both, lang: en, domains: [theguardian.com], url: "https://www.theguardian.com/uk/business/rss"}
   - {name: "NYT Economy",     tier: 2, topic: ficc,   lang: en, domains: [nytimes.com],     url: "https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml"}
   # --- 2등급: 한국어 (미국장 관련 제목만) ---
-  - {name: "한국경제 금융",   tier: 2, topic: both, lang: ko, domains: [hankyung.com], title_filter: "뉴욕증시|뉴욕 증시|월가|美 증시|美 국채|美 금리|연준|FOMC|달러|엔화|유가|WTI|브렌트|국채 금리|나스닥|다우|S&P|엔비디아|마이크론|빅테크|반도체", url: "https://www.hankyung.com/feed/finance"}
-  - {name: "매일경제 국제",   tier: 2, topic: both, lang: ko, domains: [mk.co.kr],     title_filter: "뉴욕증시|뉴욕 증시|월가|美 증시|美 국채|美 금리|연준|FOMC|달러|엔화|유가|WTI|브렌트|국채 금리|나스닥|다우|S&P|엔비디아|마이크론|빅테크|반도체", url: "https://www.mk.co.kr/rss/30300018/"}
-  - {name: "연합뉴스 경제",   tier: 2, topic: both, lang: ko, domains: [yna.co.kr],    title_filter: "뉴욕증시|뉴욕 증시|월가|美 증시|美 국채|美 금리|연준|FOMC|달러|엔화|유가|WTI|브렌트|국채 금리|나스닥|다우|S&P|엔비디아|마이크론|빅테크|반도체", url: "https://www.yna.co.kr/rss/economy.xml"}
+  - {name: "한국경제 금융", name_en: "Hankyung",   tier: 2, topic: both, lang: ko, domains: [hankyung.com], title_filter: "뉴욕증시|뉴욕 증시|월가|美 증시|美 국채|美 금리|연준|FOMC|달러|엔화|유가|WTI|브렌트|국채 금리|나스닥|다우|S&P|엔비디아|마이크론|빅테크|반도체", url: "https://www.hankyung.com/feed/finance"}
+  - {name: "매일경제 국제", name_en: "Maeil Business",   tier: 2, topic: both, lang: ko, domains: [mk.co.kr],     title_filter: "뉴욕증시|뉴욕 증시|월가|美 증시|美 국채|美 금리|연준|FOMC|달러|엔화|유가|WTI|브렌트|국채 금리|나스닥|다우|S&P|엔비디아|마이크론|빅테크|반도체", url: "https://www.mk.co.kr/rss/30300018/"}
+  - {name: "연합뉴스 경제", name_en: "Yonhap",   tier: 2, topic: both, lang: ko, domains: [yna.co.kr],    title_filter: "뉴욕증시|뉴욕 증시|월가|美 증시|美 국채|美 금리|연준|FOMC|달러|엔화|유가|WTI|브렌트|국채 금리|나스닥|다우|S&P|엔비디아|마이크론|빅테크|반도체", url: "https://www.yna.co.kr/rss/economy.xml"}
   # --- 3등급: 전문 사이트 (보조, 단독 근거로 쓰지 않음) ---
   - {name: "FXStreet",       tier: 3, topic: ficc,   lang: en, domains: [fxstreet.com],     url: "https://www.fxstreet.com/rss/news"}
   - {name: "Seeking Alpha",  tier: 3, topic: equity, lang: en, domains: [seekingalpha.com], url: "https://seekingalpha.com/market_currents.xml"}

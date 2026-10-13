@@ -13,7 +13,7 @@ NO_US = {**NORMAL, "us_session": False, "us_new": False, "skip": False, "window"
 RESULT = {
     "summary": RAW_OK["summary"],
     "picks": {"equity": [{"id": 1, **{k: RAW_OK["equity"][0][k] for k in ("ko", "en")}}],
-              "ficc": [{"id": 2, **{k: RAW_OK["ficc"][0][k] for k in ("ko", "en")}}]},
+              "ficc": [RAW_OK["ficc"][0]]},
     "problems": [], "unverified_numbers": [], "retried": False, "first_attempt": None,
     "usage": {"input_tokens": 100, "output_tokens": 50, "est_cost_usd": 0.01},
 }
